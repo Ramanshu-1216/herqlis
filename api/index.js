@@ -273,7 +273,6 @@ app.get('/getProspect/:id', (req, res) => {
 app.get('/getAllProspect/:id', (req, res) => {
     getAllProspect(req, res);
 });
-
 // app.post('/test', upload.single('file'), (req, res) => {
 //     let cld = new Cloudupld("szuxglwu", "dl3ncyhm7");
 //     console.log("welcome " + Object.keys(req.body));
@@ -282,6 +281,6 @@ app.get('/getAllProspect/:id', (req, res) => {
 //     console.log("file :- 172 :- "+Object.keys(file));
 //     res.send(cld.upld(file.buffer));
 // })
-app.listen(3001, () => {
+app.listen(3002, () => {
     console.log('Server started at 3001');
 })

@@ -8,7 +8,7 @@ const modifyProspect = (req, res) => {
     try{
         const prospectId = req.params.id;
         const {name, firm, contact, address, email, assignedTo, buyerHistory, prospectDetails, platformDetails, modelDetails, call, status} = req.body;
-        const prospect = {prospectDetails: {}};
+        const prospect = {};
         if(name){
             prospect['name'] = name;
         }
@@ -47,8 +47,9 @@ const modifyProspect = (req, res) => {
         ProspectModel.updateOne({
             _id: prospectId,
         }, {
-            '$set': {prospect},
-            '$push': {'prospectDetails.call': prospect.call}
+            '$set': prospect,
+            '$push': {'prospectDetails.call': prospect.call},
+            writeConcern: { w: 1 }
         }).then((response) => {
             if(response.acknowledged){
                 res.status(200).json({

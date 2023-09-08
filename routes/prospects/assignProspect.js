@@ -1,7 +1,8 @@
 const ProspectModel = require('../../models/prospect');
 
 const assignProspect = (req, res) => {
-    const [prospectId, assignedTo] = req.body;
+    const prospectId = req.params.id;
+    const {assignedTo} = req.body;
 
     ProspectModel.updateOne({
         _id: prospectId

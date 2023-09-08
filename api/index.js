@@ -54,7 +54,8 @@ const modifyProspect = require('../routes/prospects/modifyProspect');
 const getProspect = require('../routes/prospects/getProspect');
 const getAllProspect = require('../routes/prospects/getAllProspect');
 const getAllProspects = require('../routes/prospects/getAllProspects');
-const assignProspect = require('../routes/prospects/assignProspect')
+const assignProspect = require('../routes/prospects/assignProspect');
+const deleteProspect = require('../routes/prospects/deleteProspect');
 // const sendOTP = require('../routes/otp/sendOTP');
 // const verifyOTP = require('../routes/otp/verifyOTP');
 // const Cloudupld = require('../test');
@@ -280,7 +281,10 @@ app.get('/getAllProspects', (req, res) => {
 });
 app.put('/assignProspect/:id', (req, res) => {
     assignProspect(req, res);
-})
+});
+app.delete('/deleteProspect/:id', (req, res) => {
+    deleteProspect(req, res);
+});
 // app.post('/test', upload.single('file'), (req, res) => {
 //     let cld = new Cloudupld("szuxglwu", "dl3ncyhm7");
 //     console.log("welcome " + Object.keys(req.body));

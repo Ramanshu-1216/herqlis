@@ -8,7 +8,7 @@ const modifyProspect = (req, res) => {
     try{
         const prospectId = req.params.id;
         const {name, firm, contact, address, email, assignedTo, buyerHistory, prospectDetails, platformDetails, modelDetails, call, status} = req.body;
-        const prospect = {};
+        const prospect = {prospectDetails: {}};
         if(name){
             prospect['name'] = name;
         }

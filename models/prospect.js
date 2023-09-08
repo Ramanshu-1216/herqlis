@@ -47,12 +47,6 @@ const prospectSchema = mongoose.Schema({
                 type: String,
             }
         },
-        call: [
-            {
-                date: String,
-                message: String,
-            }
-        ]
     },
     registeredOn: {
         type: Date,
@@ -64,7 +58,13 @@ const prospectSchema = mongoose.Schema({
     status: {
         type: String,
         required: true,
-    }
+    },
+    call: [
+        {
+            date: String,
+            message: String,
+        }
+    ]
 });
 const prospectModel = mongoose.model('Prospect', prospectSchema);
 module.exports = prospectModel;

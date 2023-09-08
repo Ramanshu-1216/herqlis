@@ -5,7 +5,7 @@ const platforms = ['Buying', 'Working', 'Market', 'Universe'];
 const models = ['HQ-50', 'HQ-70', 'HQ-140', 'HQ-220'];
 
 const modifyProspect = (req, res) => {
-    try{
+    // try{
         const prospectId = req.params.id;
         const {name, firm, contact, address, email, assignedTo, buyerHistory, prospectDetails, platformDetails, modelDetails, call, status} = req.body;
         const prospect = {prospectDetails: {}};
@@ -32,7 +32,7 @@ const modifyProspect = (req, res) => {
             prospect['prospectDetails']['buyerHistory'] = buyerHistory;
         }
         if(platformDetails){
-            prospect['prospectDetails']['platformDetails'] = latformDetails;
+            prospect['prospectDetails']['platformDetails'] = platformDetails;
         }
         if(modelDetails){
             prospect['prospectDetails']['modelDetails'] = modelDetails;
@@ -40,16 +40,11 @@ const modifyProspect = (req, res) => {
         if(status){
             prospect['status'] = statuses[status];
         }
-        if(call){
-            prospect['call'] = call;
-        }
-        console.log(prospect);
         ProspectModel.updateOne({
             _id: prospectId,
         }, {
             '$set': prospect,
-            '$push': {'prospectDetails.call': prospect.call},
-            writeConcern: { w: 1 }
+            '$push': {'call': call},
         }).then((response) => {
             if(response.acknowledged){
                 res.status(200).json({
@@ -69,12 +64,12 @@ const modifyProspect = (req, res) => {
                 error: error,
             });
         });
-    }
-    catch(error){
-        res.status(500).json({
-            message: 'Something went wrong',
-            error: error,
-        });
-    }
+    // }
+    // catch(error){
+    //     res.status(500).json({
+    //         message: 'Something went wrong',
+    //         error: error,
+    //     });
+    // }
 }
 module.exports = modifyProspect;

@@ -35,7 +35,7 @@ const prospectSchema = mongoose.Schema({
             platform:{
                 type: String,
             },
-            comment: {
+            comments: {
                 type: String,
             },
         },
@@ -43,10 +43,13 @@ const prospectSchema = mongoose.Schema({
             model: {
                 type: String,
             },
-            finances: {
+            comments: {
                 type: String,
             }
         },
+        finances: {
+            type: String,
+        }
     },
     registeredOn: {
         type: Date,

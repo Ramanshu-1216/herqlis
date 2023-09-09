@@ -364,6 +364,6 @@ app.post("/SalesDAbill", (req, res) => {
 //     console.log("file :- 172 :- "+Object.keys(file));
 //     res.send(cld.upld(file.buffer));
 // })
-app.listen(3002, () => {
+app.listen(3001, () => {
     console.log('Server started at 3001');
 })

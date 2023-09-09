@@ -188,15 +188,12 @@ app.post('/da', (req,res) => {
             res.send({daCost: Math.max(costForTime, costForDistance)});
         }).catch((err) => {
             console.log(err);
-            // res.send(err);
             return;
         })
     }).catch((err) => {
         console.log(err);
         res.send(err);
     });
-    // console.log(req)
-    // addDailyAllowence(req, res);
 });
 //otp
 app.post('/opt', (req, res) => {

@@ -1,4 +1,4 @@
-const billModel = require('../../models/bill');
+const salesBillModel = require('../../../models/salesBill');
 
 const usersSalesBills = (req, res) => {
     const userId = req.params.userId;

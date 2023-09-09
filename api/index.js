@@ -59,10 +59,11 @@ const deleteProspect = require('../routes/prospects/deleteProspect');
 const addSalesBill = require('../routes/prospects/bills/addSalesBill');
 const getSalesBills = require('../routes/prospects/bills/getSalesBills');
 const usersSalesBills = require('../routes/prospects/bills/usersSalesBills');
-const getSalesBill = require('../routes/bills/prospects/getSalesBill');
+const getSalesBill = require('../routes/prospects/bills/getSalesBill');
 const salesReimbursement = require('../routes/prospects/bills/salesReimbursement');
 const deleteSalesBill = require('../routes/prospects/bills/deleteSalesBill');
 const addSalesDABill = require('../routes/prospects/bills/addSalesDABill');
+
 const salesBillModel = require('../models/salesBill');
 
 // const sendOTP = require('../routes/otp/sendOTP');

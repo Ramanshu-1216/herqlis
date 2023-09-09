@@ -174,7 +174,7 @@ app.post('/da', (req,res) => {
         var url1 = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?" + "travelMode=driving" + "&" + "destinations=" + lat3 + "," + long3 + "&" + "origins=" + lat2 + "," + long2 + "&" + "&" + "key=AvmrNFJ3BmYB3ZpIamL7LvUDasyAt9L2HL-qu44vSkTEjQex7_VcDWIUEeERKrkk";
         axios.get(url1).then((res2) => {
             distance += res2.data.resourceSets[0].resources[0].results[0].travelDistance;
-            const timeDifference = endTime - startTime;
+            const timeDifference = Math.abs(endTime - startTime);
             const hoursDifference = timeDifference  / (1000 * 60 * 60);
             const multipleOfTwelve = Math.floor(hoursDifference / 12);
             const costForTime = multipleOfTwelve * 150;
@@ -182,7 +182,7 @@ app.post('/da', (req,res) => {
             const costForDistance = multipleOfHundred * 150;
 
             if(isPublic){
-                res.send({petrolCost: distance * 2.5, daCost: Math.max(costForTime, costForDistance)});
+                res.send({petrolCost: Math.abs(distance * 2.5), daCost: Math.abs(Math.max(costForTime, costForDistance))});
                 return;
             }
             res.send({daCost: Math.max(costForTime, costForDistance)});

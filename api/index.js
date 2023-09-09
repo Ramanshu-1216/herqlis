@@ -56,6 +56,15 @@ const getAllProspect = require('../routes/prospects/getAllProspect');
 const getAllProspects = require('../routes/prospects/getAllProspects');
 const assignProspect = require('../routes/prospects/assignProspect');
 const deleteProspect = require('../routes/prospects/deleteProspect');
+const addSalesBill = require('../routes/prospects/bills/addSalesBill');
+const getSalesBills = require('../routes/prospects/bills/getSalesBills');
+const usersSalesBills = require('../routes/prospects/bills/usersSalesBills');
+const getSalesBill = require('../routes/bills/prospects/getSalesBill');
+const salesReimbursement = require('../routes/prospects/bills/salesReimbursement');
+const deleteSalesBill = require('../routes/prospects/bills/deleteSalesBill');
+const addSalesDABill = require('../routes/prospects/bills/addSalesDABill');
+const salesBillModel = require('../models/salesBill');
+
 // const sendOTP = require('../routes/otp/sendOTP');
 // const verifyOTP = require('../routes/otp/verifyOTP');
 // const Cloudupld = require('../test');
@@ -80,7 +89,6 @@ mongoose.connect(db, {
 app.get('/', (req, res) => {
     res.send('Welcome');
 });
-
 app.post('/signup', (req, res) => {//
     signup(req, res);
 });
@@ -240,6 +248,8 @@ app.post('/bill', upload.single('file'), async (req, res) => {
       res.status(500).json({ error: 'Something went wrong' });
     }
 });
+
+
 app.get('/bills', (req, res) => {
     getBills(req, res);
 });
@@ -284,6 +294,67 @@ app.put('/assignProspect/:id', (req, res) => {
 });
 app.delete('/deleteProspect/:id', (req, res) => {
     deleteProspect(req, res);
+});
+
+app.post('/salesBill', upload.single('file'), async (req, res) => {
+    try {
+        // const bb = new busboy({ headers: req.headers });
+      if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+      }
+
+      const file = req.file;
+      console.log("file 162 :- "+file);
+      // Upload file data directly to Cloudinary
+      const base64Data = file.buffer.toString('base64');
+    //   console.log("file 165 :- "+base64Data);
+      await cloudinary.uploader.upload(
+        `data:${file.mimetype};base64,${base64Data}`
+      ).then((resp1) => {
+        console.log("resp1 167 :- "+resp1);
+        let billm = new salesBillModel();
+        console.log("resp1 :127 :- "+resp1);
+        billm.imgUrl = resp1.secure_url;
+        billm.amount = req.body.amount;
+        billm.description = req.body.description;
+        billm.reimbursementStatus = req.body.reimbursementStatus;
+        billm.salesId = req.body.salesId;
+        billm.userId = req.body.userId;
+        billm.save().then((resp1) => {
+            res.send({
+                'message': 'Bill added',
+                'data': resp1
+            });
+        }).catch((er) => {
+            res.send(er);
+        });
+      }).catch((er1) => {
+        res.send(er1);
+      })
+
+    //   res.json({ url: cloudinaryUpload.secure_url });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Something went wrong' });
+    }
+});
+app.get('/salesBills', (req, res) => {
+    getSalesBill(req, res);
+});
+app.get('/salesBillusr/:userId', (req, res) => {
+    usersSalesBills(req, res);
+});
+app.delete('/salesBill/:id', (req,res) => {
+    deleteSalesBill(req,res);
+});
+app.get('/salesBill/:billId', (req, res) => {
+    getSalesBill(req, res);
+});
+app.put('/salesReimbursement/:billId', (req, res) => {
+    salesReimbursement(req, res);
+});
+app.post("/SalesDAbill", (req, res) => {
+    addSalesDABill(req, res);
 });
 // app.post('/test', upload.single('file'), (req, res) => {
 //     let cld = new Cloudupld("szuxglwu", "dl3ncyhm7");

@@ -2,7 +2,7 @@ const salesBillModel = require('../../../models/salesBill');
 
 const usersSalesBills = (req, res) => {
     const userId = req.params.userId;
-    billModel.find({
+    salesBillModel.find({
         userId: userId
     }).then((resp1) => {
         res.send({

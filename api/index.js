@@ -337,7 +337,7 @@ app.post('/salesBill', upload.single('file'), async (req, res) => {
     }
 });
 app.get('/salesBills', (req, res) => {
-    getSalesBill(req, res);
+    getSalesBills(req, res);
 });
 app.get('/salesBillusr/:userId', (req, res) => {
     usersSalesBills(req, res);

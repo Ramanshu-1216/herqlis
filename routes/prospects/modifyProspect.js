@@ -40,11 +40,30 @@ const modifyProspect = (req, res) => {
         if(status){
             prospect['status'] = statuses[status];
         }
+        if(call){
+            ProspectModel.findOne({
+                _id: prospectId,
+            }).then((response) => {
+                let found = false;
+                for(let i = 0; i < response.call.length; i++){
+                    if(response.call[i]._id == call._id){
+                        found = true;
+                        response.call[i] = call;
+                        response.save();
+                        break;
+                    }
+                }
+                if(!found){
+                    response.call.push(call);
+                    response.save();
+                }
+            });
+        }
         ProspectModel.updateOne({
             _id: prospectId,
         }, {
             '$set': prospect,
-            '$push': {'call': call},
+            // '$push': {'call': call},
         }).then((response) => {
             if(response.acknowledged){
                 res.status(200).json({

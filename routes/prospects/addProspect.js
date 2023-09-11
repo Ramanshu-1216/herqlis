@@ -34,6 +34,9 @@ const addProspect = (req, res) => {
     if(modelDetails){
         prospect.modelDetails = modelDetails;
     }
+    if(call){
+        prospect.call.push(call);
+    }
     prospect.save().then((resonse) => {
         res.status(200).json({
             message: 'Prospect added',

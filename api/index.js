@@ -154,6 +154,28 @@ app.put('/advance/:serviceId', (req, res) => {
 
 module.exports = addCompletetion;
 })
+
+app.put('/distance/:serviceId', (req, res) => {
+    const serviceId = req.params.serviceId;
+    serviceModel.updateOne({
+        _id: serviceId,
+    }, {
+        '$set': {
+            'da.distance': req.body.distance,
+        }
+    }).then((response) => {
+        res.send({
+            'message': 'Distance Updated',
+            'data': response,
+        })
+    }).catch((error) => {
+        res.send({
+            'message': 'Distance not updated',
+            'data': error,
+        })
+    })
+})
+
 app.post('/da', (req,res) => {
     const lat1 = req.body.lat1;
     const long1 = req.body.long1;
@@ -186,7 +208,7 @@ app.post('/da', (req,res) => {
                 res.send({petrolCost: Math.abs(distance * 2.5), daCost: Math.abs(Math.max(costForTime, costForDistance))});
                 return;
             }
-            res.send({daCost: Math.max(costForTime, costForDistance)});
+            res.send({daCost: Math.max(costForTime, costForDistance), distance: distance});
         }).catch((err) => {
             console.log(err);
             return;

@@ -62,10 +62,16 @@ const prospectSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    da: {
+        distance: {
+            type: String,
+        }
+    },
     call: [
         {
             date: String,
             message: String,
+            distance: String,
         }
     ]
 });

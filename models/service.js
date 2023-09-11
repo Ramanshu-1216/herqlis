@@ -88,6 +88,11 @@ const serviceSchema = mongoose.Schema({
     isPublic: {
         type: Boolean,
     },
+    da: {
+        distance: {
+            type: String,
+        }
+    },
 });
 
 const serviceModel = mongoose.model('Service', serviceSchema);

@@ -5,6 +5,20 @@ const serviceSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    locationCordinates: {
+        start: {
+            lat: String,
+            long: String,
+        },
+        end: {
+            lat: String,
+            long: String,
+        },
+        returned: {
+            lat: String,
+            long: String,
+        }
+    },
     location: {
         type: {
             latitude: {

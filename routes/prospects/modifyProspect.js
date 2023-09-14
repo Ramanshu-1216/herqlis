@@ -49,6 +49,10 @@ const modifyProspect = (req, res) => {
                     if(response.call[i]._id == call._id){
                         found = true;
                         response.call[i] = call;
+                        response.call[i].prospect = {
+                            name: JSON.stringify(response),
+
+                        };
                         response.save();
                         break;
                     }

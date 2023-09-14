@@ -22,6 +22,20 @@ const prospectSchema = mongoose.Schema({
     assignedTo: {
         type: String,
     },
+    locationCordinates: {
+        start: {
+            lat: String,
+            long: String,
+        },
+        end: {
+            lat: String,
+            long: String,
+        },
+        returned: {
+            lat: String,
+            long: String,
+        }
+    },
     prospectDetails: {
         buyerHistory: {
             newBuyer: {
@@ -72,6 +86,7 @@ const prospectSchema = mongoose.Schema({
             date: String,
             message: String,
             distance: String,
+            prospect: {},
         }
     ]
 });

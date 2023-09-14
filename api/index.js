@@ -191,16 +191,25 @@ app.post('/da', (req, res) => {
     const isPublic = req.body.isPublic;
     const salesId = req.body.salesId;
     if (serviceId) {
-        serviceModel.find({ _id: serviceId }).then((response) => {
-            response.locationCordinated.start.lat = lat1;
-            response.locationCordinated.start.long = long1;
-            response.locationCordinated.end.lat = lat2;
-            response.locationCordinated.end.long = long2;
-            response.locationCordinated.returned.lat = lat3;
-            response.locationCordinated.returned.long = long3;
+        
+        serviceModel.findOne({ _id: serviceId }).then((service) => {
+            const cordinates = {
+                start: {
+                    lat: lat1,
+                    long: long1,
+                },
+                end: {
+                    lat: lat2,
+                    long: long2,
+                },
+                returned: {
+                    lat: lat3,
+                    long: long3,
+                }
+            }
+            service.locationCordinates = cordinates;
             var url = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?" + "travelMode=driving" + "&" + "destinations=" + lat2 + "," + long2 + "&" + "origins=" + lat1 + "," + long1 + "&" + "&" + "key=AvmrNFJ3BmYB3ZpIamL7LvUDasyAt9L2HL-qu44vSkTEjQex7_VcDWIUEeERKrkk"
             axios.get(url).then((res1) => {
-                console.log(res1.data.resourceSets[0].resources[0].results[0].travelDistance);
                 var distance = 0;
                 distance = res1.data.resourceSets[0].resources[0].results[0].travelDistance;
                 var url1 = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?" + "travelMode=driving" + "&" + "destinations=" + lat3 + "," + long3 + "&" + "origins=" + lat2 + "," + long2 + "&" + "&" + "key=AvmrNFJ3BmYB3ZpIamL7LvUDasyAt9L2HL-qu44vSkTEjQex7_VcDWIUEeERKrkk";
@@ -212,8 +221,11 @@ app.post('/da', (req, res) => {
                     const costForTime = multipleOfTwelve * 150;
                     const multipleOfHundred = Math.floor(distance / 100);
                     const costForDistance = multipleOfHundred * 150;
-                    response.da.distance = distance;
-                    response.save().then((res0) => {
+                    const da = {
+                        distance: String(distance),
+                    }
+                    service.da = da;;
+                    service.save().then((res0) => {
                         if (isPublic) {
                             res.send({ petrolCost: Math.abs(distance * 2.5), daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
                             return;
@@ -451,6 +463,6 @@ app.post("/SalesDAbill", (req, res) => {
 //     console.log("file :- 172 :- "+Object.keys(file));
 //     res.send(cld.upld(file.buffer));
 // })
-app.listen(3001, () => {
+app.listen(3002, () => {
     console.log('Server started at 3001');
 })

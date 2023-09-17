@@ -250,13 +250,22 @@ app.post('/da', (req, res) => {
         });
     }
     else if (salesId) {
-        prospectModel.find({ _id: salesId }).then((response) => {
-            response.locationCordinated.start.lat = lat1;
-            response.locationCordinated.start.long = long1;
-            response.locationCordinated.end.lat = lat2;
-            response.locationCordinated.end.long = long2;
-            response.locationCordinated.returned.lat = lat3;
-            response.locationCordinated.returned.long = long3;
+        prospectModel.findOne({ _id: salesId }).then((sales) => {
+            const cordinates = {
+                start: {
+                    lat: lat1,
+                    long: long1,
+                },
+                end: {
+                    lat: lat2,
+                    long: long2,
+                },
+                returned: {
+                    lat: lat3,
+                    long: long3,
+                }
+            }
+            sales.locationCordinates = cordinates;
             var url = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?" + "travelMode=driving" + "&" + "destinations=" + lat2 + "," + long2 + "&" + "origins=" + lat1 + "," + long1 + "&" + "&" + "key=AvmrNFJ3BmYB3ZpIamL7LvUDasyAt9L2HL-qu44vSkTEjQex7_VcDWIUEeERKrkk"
             axios.get(url).then((res1) => {
                 console.log(res1.data.resourceSets[0].resources[0].results[0].travelDistance);
@@ -271,8 +280,11 @@ app.post('/da', (req, res) => {
                     const costForTime = multipleOfTwelve * 150;
                     const multipleOfHundred = Math.floor(distance / 100);
                     const costForDistance = multipleOfHundred * 150;
-                    response.da.distance = distance;
-                    response.save().then((res0) => {
+                    const da = {
+                        distance: String(distance),
+                    }
+                    sales.da = da;;
+                    sales.save().then((res0) => {
                         if (isPublic) {
                             res.send({ petrolCost: Math.abs(distance * 2.5), daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
                             return;

@@ -27,6 +27,10 @@ const prospectSchema = mongoose.Schema({
             lat: String,
             long: String,
         },
+        departure: {
+            lat: String,
+            long: String,
+        },
         end: {
             lat: String,
             long: String,
@@ -88,7 +92,10 @@ const prospectSchema = mongoose.Schema({
             distance: String,
             prospect: {},
         }
-    ]
+    ],
+    addedFrom: {
+        type: String,
+    }
 });
 const prospectModel = mongoose.model('Prospect', prospectSchema);
 module.exports = prospectModel;

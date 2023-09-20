@@ -1,14 +1,21 @@
 const { response } = require('express');
 const ProspectModel = require('../../models/prospect');
-const statuses = ['Upcoming', 'Ongoing', 'Completed'];
+const statuses = ['Upcoming', 'Ongoing', 'Completed', 'Closed'];
 const platforms = ['Buying', 'Working', 'Market', 'Universe'];
 const models = ['HQ-50', 'HQ-70', 'HQ-140', 'HQ-220'];
 
 const modifyProspect = (req, res) => {
     // try{
         const prospectId = req.params.id;
-        const {name, firm, contact, address, email, assignedTo, buyerHistory, prospectDetails, platformDetails, modelDetails, call, status} = req.body;
+        const {name, firm, contact, address, email, assignedTo, buyerHistory, prospectDetails, platformDetails, modelDetails, call, status, assignedFrom} = req.body;
         const prospect = {prospectDetails: {}};
+        if(statuses[status] == 'Closed'){
+            res.status(500).json({
+                message: 'Deal is closed',
+                error: 'Can not change data',
+            });
+            return;
+        }
         if(name){
             prospect['name'] = name;
         }
@@ -27,6 +34,9 @@ const modifyProspect = (req, res) => {
         if(assignedTo){
             prospect['assignedTo'] = assignedTo;
             prospect['assignedOn'] = new Date();
+        }
+        if(assignedFrom){
+            prospect['assignedFrom'] = assignedFrom;
         }
         if(buyerHistory){
             prospect['prospectDetails']['buyerHistory'] = buyerHistory;

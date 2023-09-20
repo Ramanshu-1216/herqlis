@@ -186,17 +186,23 @@ app.post('/da', (req, res) => {
     const endTime = req.body.endTime;
     const lat3 = req.body.lat3;
     const long3 = req.body.long3;
+    const lat4 = req.body.lat4;
+    const long4 = req.body.long4;
 
     const serviceId = req.body.serviceId;
     const isPublic = req.body.isPublic;
     const salesId = req.body.salesId;
     if (serviceId) {
-        
+
         serviceModel.findOne({ _id: serviceId }).then((service) => {
             const cordinates = {
                 start: {
                     lat: lat1,
                     long: long1,
+                },
+                departure: {
+                    lat: lat2,
+                    long: long2,
                 },
                 end: {
                     lat: lat2,
@@ -214,27 +220,34 @@ app.post('/da', (req, res) => {
                 distance = res1.data.resourceSets[0].resources[0].results[0].travelDistance;
                 var url1 = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?" + "travelMode=driving" + "&" + "destinations=" + lat3 + "," + long3 + "&" + "origins=" + lat2 + "," + long2 + "&" + "&" + "key=AvmrNFJ3BmYB3ZpIamL7LvUDasyAt9L2HL-qu44vSkTEjQex7_VcDWIUEeERKrkk";
                 axios.get(url1).then((res2) => {
+                    var url2 = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?" + "travelMode=driving" + "&" + "destinations=" + lat3 + "," + long3 + "&" + "origins=" + lat4 + "," + long4 + "&" + "&" + "key=AvmrNFJ3BmYB3ZpIamL7LvUDasyAt9L2HL-qu44vSkTEjQex7_VcDWIUEeERKrkk";
                     distance += res2.data.resourceSets[0].resources[0].results[0].travelDistance;
-                    const timeDifference = Math.abs(endTime - startTime);
-                    const hoursDifference = timeDifference / (1000 * 60 * 60);
-                    const multipleOfTwelve = Math.floor(hoursDifference / 12);
-                    const costForTime = multipleOfTwelve * 150;
-                    const multipleOfHundred = Math.floor(distance / 100);
-                    const costForDistance = multipleOfHundred * 150;
-                    const da = {
-                        distance: String(distance),
-                    }
-                    service.da = da;;
-                    service.save().then((res0) => {
-                        if (isPublic) {
-                            res.send({ petrolCost: Math.abs(distance * 2.5), daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
-                            return;
+                    axios.get(url2).then((res3) => {
+                        distance += res3.data.resourceSets[0].resources[0].results[0].travelDistance;
+                        const timeDifference = Math.abs(endTime - startTime);
+                        const hoursDifference = timeDifference / (1000 * 60 * 60);
+                        const multipleOfTwelve = Math.floor(hoursDifference / 12);
+                        const costForTime = multipleOfTwelve * 150;
+                        const multipleOfHundred = Math.floor(distance / 100);
+                        const costForDistance = multipleOfHundred * 150;
+                        const da = {
+                            distance: String(distance),
                         }
-                        res.send({ daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
+                        service.da = da;;
+                        service.save().then((res0) => {
+                            if (isPublic) {
+                                res.send({ petrolCost: Math.abs(distance * 2.5), daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
+                                return;
+                            }
+                            res.send({ daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
+                        }).catch((error) => {
+                            console.error(error);
+                            return;
+                        });
                     }).catch((error) => {
-                        console.error(error);
+                        console.log(error);
                         return;
-                    });
+                    })
 
                 }).catch((err) => {
                     console.log(err);
@@ -251,18 +264,23 @@ app.post('/da', (req, res) => {
     }
     else if (salesId) {
         prospectModel.findOne({ _id: salesId }).then((sales) => {
+            console.log(sales);
             const cordinates = {
-                start: {
+                departure: {
                     lat: lat1,
                     long: long1,
                 },
-                end: {
+                start: {
                     lat: lat2,
                     long: long2,
                 },
-                returned: {
+                end: {
                     lat: lat3,
                     long: long3,
+                },
+                returned: {
+                    lat: lat4,
+                    long: long4,
                 }
             }
             sales.locationCordinates = cordinates;
@@ -273,27 +291,34 @@ app.post('/da', (req, res) => {
                 distance = res1.data.resourceSets[0].resources[0].results[0].travelDistance;
                 var url1 = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?" + "travelMode=driving" + "&" + "destinations=" + lat3 + "," + long3 + "&" + "origins=" + lat2 + "," + long2 + "&" + "&" + "key=AvmrNFJ3BmYB3ZpIamL7LvUDasyAt9L2HL-qu44vSkTEjQex7_VcDWIUEeERKrkk";
                 axios.get(url1).then((res2) => {
+                    var url2 = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?" + "travelMode=driving" + "&" + "destinations=" + lat3 + "," + long3 + "&" + "origins=" + lat4 + "," + long4 + "&" + "&" + "key=AvmrNFJ3BmYB3ZpIamL7LvUDasyAt9L2HL-qu44vSkTEjQex7_VcDWIUEeERKrkk";
                     distance += res2.data.resourceSets[0].resources[0].results[0].travelDistance;
-                    const timeDifference = Math.abs(endTime - startTime);
-                    const hoursDifference = timeDifference / (1000 * 60 * 60);
-                    const multipleOfTwelve = Math.floor(hoursDifference / 12);
-                    const costForTime = multipleOfTwelve * 150;
-                    const multipleOfHundred = Math.floor(distance / 100);
-                    const costForDistance = multipleOfHundred * 150;
-                    const da = {
-                        distance: String(distance),
-                    }
-                    sales.da = da;;
-                    sales.save().then((res0) => {
-                        if (isPublic) {
-                            res.send({ petrolCost: Math.abs(distance * 2.5), daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
-                            return;
+                    axios.get(url2).then((res3) => {
+                        distance += res3.data.resourceSets[0].resources[0].results[0].travelDistance;
+                        const timeDifference = Math.abs(endTime - startTime);
+                        const hoursDifference = timeDifference / (1000 * 60 * 60);
+                        const multipleOfTwelve = Math.floor(hoursDifference / 12);
+                        const costForTime = multipleOfTwelve * 150;
+                        const multipleOfHundred = Math.floor(distance / 100);
+                        const costForDistance = multipleOfHundred * 150;
+                        const da = {
+                            distance: String(distance),
                         }
-                        res.send({ daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
+                        sales.da = da;;
+                        sales.save().then((res0) => {
+                            if (isPublic) {
+                                res.send({ petrolCost: Math.abs(distance * 2.5), daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
+                                return;
+                            }
+                            res.send({ daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
+                        }).catch((error) => {
+                            console.error(error);
+                            return;
+                        });
                     }).catch((error) => {
-                        console.error(error);
+                        console.log(error);
                         return;
-                    });
+                    })
                 }).catch((err) => {
                     console.log(err);
                     return;

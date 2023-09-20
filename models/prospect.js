@@ -93,7 +93,7 @@ const prospectSchema = mongoose.Schema({
             prospect: {},
         }
     ],
-    addedFrom: {
+    assignedFrom: {
         type: String,
     }
 });

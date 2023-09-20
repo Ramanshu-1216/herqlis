@@ -7,7 +7,7 @@ const models = ['HQ-50', 'HQ-70', 'HQ-140', 'HQ-220'];
 const modifyProspect = (req, res) => {
     // try{
         const prospectId = req.params.id;
-        const {name, firm, contact, address, email, assignedTo, buyerHistory, prospectDetails, platformDetails, modelDetails, call, status, assignedFrom} = req.body;
+        const {name, firm, contact, address, email, assignedTo, buyerHistory, prospectDetails, platformDetails, modelDetails, call, status, assignedFrom, finances} = req.body;
         const prospect = {prospectDetails: {}};
         if(statuses[status] == 'Closed'){
             res.status(500).json({
@@ -49,6 +49,9 @@ const modifyProspect = (req, res) => {
         }
         if(status){
             prospect['status'] = statuses[status];
+        }
+        if(finances){
+            prospect['finances'] = finances;
         }
         if(call){
             ProspectModel.findOne({

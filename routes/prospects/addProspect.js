@@ -1,17 +1,18 @@
 const ProspectModel = require('../../models/prospect');
-const statuses = ['Upcoming', 'Ongoing', 'Completed'];
+const statuses = ['Upcoming', 'Ongoing', 'Completed', 'Closed'];
 const platforms = ['Buying', 'Working', 'Market', 'Universe'];
 const models = ['HQ-50', 'HQ-70', 'HQ-140', 'HQ-220'];
 
 
 const addProspect = (req, res) => {
-    const {name, firm, contact, address, email, assignedTo, prospectDetails, platformDetails, modelDetails, call, status} = req.body;
+    const {name, firm, contact, address, email, assignedTo, prospectDetails, platformDetails, modelDetails, call, status, assignedFrom} = req.body;
     const prospect = new ProspectModel();
     prospect.name= name;
     prospect.firm = firm;
     prospect.contact = contact;
     prospect.address = address;
     prospect.email = email;
+    prospect.assignedFrom = assignedFrom;
     if(status){
         if(status >= 0 && status < statuses.length){
             prospect.status = statuses[status];

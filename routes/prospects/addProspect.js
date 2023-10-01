@@ -38,6 +38,7 @@ const addProspect = (req, res) => {
     if(call){
         prospect.call.push(call);
     }
+    prospect.prospectId = "none";
     prospect.save().then((resonse) => {
         res.status(200).json({
             message: 'Prospect added',

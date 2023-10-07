@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
+    userId:{
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true
@@ -59,6 +63,22 @@ const userSchema = mongoose.Schema({
     }
 });
 
+userSchema.pre('save', function(next) {
+    if (this.serviceId != "none") {
+        // Generate the 6-digit ID if it doesn't exist
+        const sixDigitID = generateSixDigitID(this._id);
+        this.userId = sixDigitID;
+    }
+    next();
+});
+
 const userModel = mongoose.model('User', userSchema);
 
 module.exports = userModel;
+
+function generateSixDigitID(objectId) {
+    const hexString = objectId.toHexString();
+    const integerID = parseInt(hexString, 16);
+    const sixDigitID = (integerID % 900000) + 100000; // Ensure it's a 6-digit number
+    return sixDigitID.toString();
+}

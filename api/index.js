@@ -63,9 +63,11 @@ const getSalesBill = require('../routes/prospects/bills/getSalesBill');
 const salesReimbursement = require('../routes/prospects/bills/salesReimbursement');
 const deleteSalesBill = require('../routes/prospects/bills/deleteSalesBill');
 const addSalesDABill = require('../routes/prospects/bills/addSalesDABill');
+const updateUser = require('../routes/users/updateUser.js');
 
 const salesBillModel = require('../models/salesBill');
 const prospectModel = require('../models/prospect');
+const userModel = require('../models/user');
 
 // const sendOTP = require('../routes/otp/sendOTP');
 // const verifyOTP = require('../routes/otp/verifyOTP');
@@ -492,6 +494,9 @@ app.put('/salesReimbursement/:billId', (req, res) => {
 app.post("/SalesDAbill", (req, res) => {
     addSalesDABill(req, res);
 });
+app.put('/user/', (req, res) => {
+    updateService(req, res);
+})
 // app.post('/test', upload.single('file'), (req, res) => {
 //     let cld = new Cloudupld("szuxglwu", "dl3ncyhm7");
 //     console.log("welcome " + Object.keys(req.body));
@@ -500,6 +505,21 @@ app.post("/SalesDAbill", (req, res) => {
 //     console.log("file :- 172 :- "+Object.keys(file));
 //     res.send(cld.upld(file.buffer));
 // })
+// userModel.find({}).then((res) => {
+//     for(let i = 0; i < res.length; i++){
+//         res[i].userId = generateSixDigitID(res[i]._id);
+//         res[i].save().then((res) => {
+//             console.log(res.userId);
+//         })
+//     }
+// })
 app.listen(3001, () => {
     console.log('Server started at 3001');
 })
+
+// function generateSixDigitID(objectId) {
+//     const hexString = objectId.toHexString();
+//     const integerID = parseInt(hexString, 16);
+//     const sixDigitID = (integerID % 900000) + 100000; // Ensure it's a 6-digit number
+//     return sixDigitID.toString();
+// }

@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
-const billSchema = mongoose.Schema({
+const billSchema = mongoose.Schema(
+    {
+    billId: {
+        type: String,
+        required: true,
+    },
     imgUrl: {
         type: String,
         // required: true

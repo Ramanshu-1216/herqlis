@@ -22,6 +22,7 @@ const signup = (req, res) => {
     userm.gender = req.body.gender;
     userm.address = req.body.address;
     userm.employeeType = 'Service man'
+    userm.userId = "none";
     userm.save().then((resp1) => {
         res.send({
             'message': 'User created',

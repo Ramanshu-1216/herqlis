@@ -64,7 +64,7 @@ const userSchema = mongoose.Schema({
 });
 
 userSchema.pre('save', function(next) {
-    if (this.serviceId != "none") {
+    if (this.userId != "none") {
         // Generate the 6-digit ID if it doesn't exist
         const sixDigitID = generateSixDigitID(this._id);
         this.userId = sixDigitID;

@@ -495,7 +495,7 @@ app.post("/SalesDAbill", (req, res) => {
     addSalesDABill(req, res);
 });
 app.put('/user/', (req, res) => {
-    updateService(req, res);
+    updateUser(req, res);
 })
 // app.post('/test', upload.single('file'), (req, res) => {
 //     let cld = new Cloudupld("szuxglwu", "dl3ncyhm7");

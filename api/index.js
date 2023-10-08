@@ -500,29 +500,7 @@ app.post("/SalesDAbill", (req, res) => {
 app.put('/user/', (req, res) => {
     updateUser(req, res);
 })
-// app.post('/test', upload.single('file'), (req, res) => {
-//     let cld = new Cloudupld("szuxglwu", "dl3ncyhm7");
-//     console.log("welcome " + Object.keys(req.body));
-//     let file = req.file;
-//     const base64Data = file.buffer.toString('base64');
-//     console.log("file :- 172 :- "+Object.keys(file));
-//     res.send(cld.upld(file.buffer));
-// })
-// userModel.find({}).then((res) => {
-//     for(let i = 0; i < res.length; i++){
-//         res[i].userId = generateSixDigitID(res[i]._id);
-//         res[i].save().then((res) => {
-//             console.log(res.userId);
-//         })
-//     }
-// })
+
 app.listen(3001, () => {
     console.log('Server started at 3001');
-})
-
-// function generateSixDigitID(objectId) {
-//     const hexString = objectId.toHexString();
-//     const integerID = parseInt(hexString, 16);
-//     const sixDigitID = (integerID % 900000) + 100000; // Ensure it's a 6-digit number
-//     return sixDigitID.toString();
-// }
+});

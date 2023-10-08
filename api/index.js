@@ -118,7 +118,7 @@ app.delete('/serviceman/:id', (req, res) => {
 app.post('/service', (req, res) => {//
     addService(req, res);
 });
-app.put('/service/:serviceId', (req, res) => {
+app.put('/service', (req, res) => {
     updateService(req, res);
 })
 app.get('/services/:userId', (req, res) => {
@@ -513,9 +513,9 @@ app.put('/user/', (req, res) => {
 //         })
 //     }
 // })
-app.listen(3001, () => {
-    console.log('Server started at 3001');
-})
+// app.listen(3001, () => {
+//     console.log('Server started at 3001');
+// })
 
 // function generateSixDigitID(objectId) {
 //     const hexString = objectId.toHexString();

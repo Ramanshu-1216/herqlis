@@ -37,7 +37,7 @@ const billSchema = mongoose.Schema(
         type: Date
     }
 });
-serviceSchema.pre('save', function(next) {
+billSchema.pre('save', function(next) {
     if (this.billId == "none") {
         // Generate the 6-digit ID if it doesn't exist
         const sixDigitID = generateSixDigitID(this._id);

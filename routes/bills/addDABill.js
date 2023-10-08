@@ -7,6 +7,7 @@ const addBill = (req, res) => {
     billm.serviceId = req.body.serviceId;
     billm.userId = req.body.userId;
     billm.dateData = new Date();
+    billm.billId = "none";
     billm
     .save()
     .then((resp1) => {

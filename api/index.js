@@ -513,9 +513,9 @@ app.put('/user/', (req, res) => {
 //         })
 //     }
 // })
-// app.listen(3001, () => {
-//     console.log('Server started at 3001');
-// })
+app.listen(3001, () => {
+    console.log('Server started at 3001');
+})
 
 // function generateSixDigitID(objectId) {
 //     const hexString = objectId.toHexString();

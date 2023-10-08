@@ -12,7 +12,7 @@ const modifyProspect = (req, res) => {
         ProspectModel.findOne({'_id': prospectId}).then((item) => {
             if(item){
                 prospect = item;
-                if(statuses[status] == 'Closed'){
+                if(item.status == 'Closed'){
                     res.status(500).json({
                         message: 'Deal is closed',
                         error: 'Can not change data',

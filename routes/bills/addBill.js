@@ -66,8 +66,8 @@ const addBill = (req, res) => {
           billm.userId = req.body.userId;
           billm.reimbursedAmount = req.body.reimbursedAmount;
           billm.dateData = new Date();
-          billm
-            .save()
+          billm.billId = "none";
+          billm.save()
             .then((resp1) => {
               res.send({
                 message: 'Bill added',

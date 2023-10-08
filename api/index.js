@@ -226,6 +226,7 @@ app.post('/da', (req, res) => {
                     distance += res2.data.resourceSets[0].resources[0].results[0].travelDistance;
                     axios.get(url2).then((res3) => {
                         distance += res3.data.resourceSets[0].resources[0].results[0].travelDistance;
+                        console.log(distance);
                         const timeDifference = Math.abs(endTime - startTime);
                         const hoursDifference = timeDifference / (1000 * 60 * 60);
                         const multipleOfTwelve = Math.floor(hoursDifference / 12);
@@ -236,6 +237,7 @@ app.post('/da', (req, res) => {
                             distance: String(distance),
                         }
                         service.da = da;;
+                        console.log(costForDistance, costForTime);
                         service.save().then((res0) => {
                             if (isPublic) {
                                 res.send({ petrolCost: Math.abs(distance * 2.5), daCost: Math.abs(Math.max(costForTime, costForDistance)), distance: distance });
@@ -285,6 +287,7 @@ app.post('/da', (req, res) => {
                     long: long4,
                 }
             }
+            
             sales.locationCordinates = cordinates;
             var url = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?" + "travelMode=driving" + "&" + "destinations=" + lat2 + "," + long2 + "&" + "origins=" + lat1 + "," + long1 + "&" + "&" + "key=AvmrNFJ3BmYB3ZpIamL7LvUDasyAt9L2HL-qu44vSkTEjQex7_VcDWIUEeERKrkk"
             axios.get(url).then((res1) => {

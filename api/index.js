@@ -371,6 +371,7 @@ app.post('/bill', upload.single('file'), async (req, res) => {
             billm.reimbursementStatus = req.body.reimbursementStatus;
             billm.serviceId = req.body.serviceId;
             billm.userId = req.body.userId;
+            billm.billId = "none";
             billm.save().then((resp1) => {
                 res.send({
                     'message': 'Bill added',

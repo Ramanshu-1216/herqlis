@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const prospectSchema = mongoose.Schema({
-    prospectId:{
+    prospectId: {
         type: String,
         required: true,
     },
@@ -54,7 +54,7 @@ const prospectSchema = mongoose.Schema({
             },
         },
         platformDetails: {
-            platform:{
+            platform: {
                 type: String,
             },
             comments: {
@@ -99,11 +99,13 @@ const prospectSchema = mongoose.Schema({
     ],
     assignedFrom: {
         type: String,
+    },
+    advance: {
+        type: Number
     }
 });
-prospectSchema.pre('save', function(next) {
+prospectSchema.pre('save', function (next) {
     if (this.prospectId == "none") {
-        // Generate the 6-digit ID if it doesn't exist
         const sixDigitID = generateSixDigitID(this._id);
         this.prospectId = sixDigitID;
     }

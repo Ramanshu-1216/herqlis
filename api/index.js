@@ -502,6 +502,23 @@ app.put('/user/', (req, res) => {
     updateUser(req, res);
 })
 
+app.put('/sales/advance/:salesId', (req, res) => {
+    const salesId = req.params.salesId;
+    const advance = req.body.advance;
+    prospectModel.updateOne({
+        _id: salesId
+    }, {
+        advance: advance
+    }).then((resp1) => {
+        res.send({
+            'message': 'advance updated',
+            'data': resp1
+        })
+    }).catch((er1) => {
+        res.send(er1);
+    })
+});
+
 app.listen(3001, () => {
     console.log('Server started at 3001');
 });
